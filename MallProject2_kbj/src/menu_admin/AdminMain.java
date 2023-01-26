@@ -19,12 +19,13 @@ public class AdminMain implements MenuCommand{
 			int sel = Util.getValue(0, 4);
 			if(sel ==0) {
 				mCon.changeMenu("MallMain");
+				break;
 			}else if(sel==1) {
 				mCon.changeMenu("AdminMember");
 			}else if (sel ==2) {
 				mCon.changeMenu("AdminShopping");
 			}else if(sel==3) {
-				
+				mCon.changeMenu("AdminCart");
 			}else if (sel==4) {
 				
 			}

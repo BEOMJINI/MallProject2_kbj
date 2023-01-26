@@ -19,7 +19,7 @@ public class MallMain implements MenuCommand{
 			System.out.println("[0]종료 [1]로그인 [2]회원가입");
 			int sel = Util.getValue(0, 2);
 			if(sel ==0) {
-				break;
+				return;
 			}else if (sel==1) {
 				mCon.changeMenu("MallLogin");
 			}else if (sel ==2) {

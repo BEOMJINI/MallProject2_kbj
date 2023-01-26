@@ -7,11 +7,11 @@ import util.Util;
 
 public class AdminMember implements MenuCommand {
 	private MallController mCon;
-	private MemberDAO mDao;
+	//private MemberDAO mDao;
 	@Override
 	public void init() {
 		mCon = MallController.getInstance();
-		mDao = MemberDAO.getInstance();
+		//mDao = MemberDAO.getInstance();
 	}
 
 	@Override
@@ -22,8 +22,10 @@ public class AdminMember implements MenuCommand {
 			int sel = Util.getValue(0, 2);
 			if(sel == 0) {
 				mCon.changeMenu("AdminMain");
+				break;
 			}else if(sel==1) {
-				mDao.printAdminMember();
+				mCon.changeMenu("AdminPrintMember");
+				//mDao.printAdminMember();
 			}else if(sel==2) {
 				
 			}

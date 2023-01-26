@@ -38,7 +38,7 @@ public class Item {
 	}
 	@Override
 	public String toString() {
-		String s = String.format("[NUM]%-6d [CATEGORY]%10s [NAME]%10s [PRICE]%10d", num, categoryName, name, price);
+		String s = String.format("[NUM]%-4d [CATEGORY]%7s [NAME]%7s [PRICE]%7d", num, categoryName, name, price);
 		return s;
 	}
 	

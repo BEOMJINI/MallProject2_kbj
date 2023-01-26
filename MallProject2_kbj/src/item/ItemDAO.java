@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import cart.CartDAO;
 import util.Util;
 
 public class ItemDAO {
@@ -19,12 +20,14 @@ public class ItemDAO {
 	private ArrayList<Item> ilist;
 	private int cNum;
 	private TreeSet<String> categoryset;
+	private CartDAO cDao;
 
 	public void init() {
 		ilist = new ArrayList<>();
 		cNum = 100;
 		categoryset = new TreeSet<>();
 		sampleItem();
+		cDao = CartDAO.getInstance();
 	}
 
 	/** 상품 번호부여 */
@@ -155,21 +158,34 @@ public class ItemDAO {
 			break;
 		}
 	}
-	
+
 	/** member main [1]쇼핑 */
 	public void shoppingMember() {
 		ArrayList<String> category = setCategoryList();
-		while(true) {
-		System.out.println("\n[카테고리]\n[0]뒤로가기");
-		for(int i =0; i<category.size(); i++) {
-			System.out.printf("[%d]%s\n",i+1,category.get(i));
-		}
-		int sel = Util.getValue(0, category.size())-1;
-		if(sel ==-1) {
-			break;
-		}else if(sel>=0 && sel<=category.size()-1){
-			
-		}
+		while (true) {
+			System.out.println("\n[카테고리]\n[0]뒤로가기");
+			for (int i = 0; i < category.size(); i++) {
+				System.out.printf("[%d]%s\n", i + 1, category.get(i));
+			}
+			int sel = Util.getValue(0, category.size()) - 1;
+			if (sel == -1) {
+				break;
+			} else if (sel >= 0 && sel <= category.size() - 1) {
+				while (true) {
+					System.out.println("\n[0]뒤로가기");
+					ArrayList<Item> list = selCategoryItemList(category.get(sel));
+					for (int i = 0; i < list.size(); i++) {
+						System.out.println(i + 1 + ") " + list.get(i).toString());
+					}
+					int choice = Util.getValue(0, list.size()) - 1;
+					if (choice == -1) {
+						break;
+					} else if (choice >= 0 && choice <= list.size() - 1) {
+						Item i = list.get(choice);
+						cDao.insertClist(i);
+					}
+				}
+			}
 		}
 	}
 }

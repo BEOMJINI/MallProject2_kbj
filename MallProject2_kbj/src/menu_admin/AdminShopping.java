@@ -7,11 +7,11 @@ import util.Util;
 
 public class AdminShopping implements MenuCommand{
 	private MallController mCon;
-	private ItemDAO iDao;
+	//private ItemDAO iDao;
 	@Override
 	public void init() {
 		mCon = MallController.getInstance();
-		iDao = ItemDAO.getInstance();
+		//iDao = ItemDAO.getInstance();
 	}
 
 	@Override
@@ -22,12 +22,16 @@ public class AdminShopping implements MenuCommand{
 			int sel = Util.getValue(0, 3);
 			if(sel ==0) {
 				mCon.changeMenu("AdminMain");
+				break;
 			}else if (sel ==1) {
-				iDao.printAdminItem();
+				mCon.changeMenu("AdminPrintItem");
+				//iDao.printAdminItem();
 			}else if (sel ==2) {
-				iDao.addAdminItem();
+				mCon.changeMenu("AdminAddItem");
+				//iDao.addAdminItem();
 			}else if (sel ==3) {
-				iDao.deleteAdminItem();
+				mCon.changeMenu("AdmindeleteItem");
+				//iDao.deleteAdminItem();
 			}
 		}
 	}

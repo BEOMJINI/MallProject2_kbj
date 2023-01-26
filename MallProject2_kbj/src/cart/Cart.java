@@ -38,7 +38,7 @@ public class Cart {
 	}
 	@Override
 	public String toString() {
-		String s = String.format("[NUM]%-6d [ID]%10s [NAME]%10s [PRICE]%10d", num, id, itemName, itemPrice);
+		String s = String.format("[NUM]%-4d [ID]%7s [NAME]%7s [PRICE]%7d", num, id, itemName, itemPrice);
 		return s;
 	}
 	
