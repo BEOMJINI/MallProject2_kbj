@@ -21,13 +21,13 @@ public class AdminMember implements MenuCommand {
 			System.out.println("[0]ADMIN 메인 [1]회원목록 [2]주문목록");
 			int sel = Util.getValue(0, 2);
 			if(sel == 0) {
-				mCon.changeMenu("AdminMain");
+				//mCon.changeMenu("AdminMain");
 				break;
 			}else if(sel==1) {
 				mCon.changeMenu("AdminPrintMember");
 				//mDao.printAdminMember();
 			}else if(sel==2) {
-				
+				mCon.changeMenu("AdminPrintBuyList");
 			}
 		}
 		

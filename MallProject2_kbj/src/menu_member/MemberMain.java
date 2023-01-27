@@ -21,7 +21,7 @@ public class MemberMain implements MenuCommand{
 			System.out.println("[0]종료 [1]쇼핑 [2]장바구니 [3]게시판");
 			int sel = Util.getValue(0, 3);
 			if(sel == 0) {
-				mCon.changeMenu("MallMain");
+				//mCon.changeMenu("MallMain");
 				break;
 			}else if (sel==1) {
 				mCon.changeMenu("MemberShopping");
@@ -29,7 +29,7 @@ public class MemberMain implements MenuCommand{
 			}else if (sel==2) {
 				mCon.changeMenu("MemberCart");
 			}else if (sel ==3) {
-				
+				mCon.changeMenu("MemberBoard");
 			}
 		}
 		

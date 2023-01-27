@@ -1,9 +1,14 @@
 package item;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import cart.Cart;
 import cart.CartDAO;
 import util.Util;
 
@@ -21,6 +26,10 @@ public class ItemDAO {
 	private int cNum;
 	private TreeSet<String> categoryset;
 	private CartDAO cDao;
+
+	public ArrayList<Item> getIlist() {
+		return ilist;
+	}
 
 	public void init() {
 		ilist = new ArrayList<>();
@@ -187,5 +196,79 @@ public class ItemDAO {
 				}
 			}
 		}
+	}
+	
+	public void saveItemList() {
+		String name = "src/file/ITEMLIST.txt";
+		FileWriter fw = null;
+		String data = "";
+		for(Item i : ilist) {
+			data+= i.getNum()+"/"+i.getCategoryName()+"/"+i.getName()+"/"+i.getPrice()+"\n";
+		}
+		
+		try {
+			fw=new FileWriter(name);
+			fw.write(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(fw!=null) {
+				try {
+					fw.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			System.out.println("[현재 상품목록 저장완료]");
+		}
+	}
+	
+	public void loadItemList() {
+		String name = "src/file/ITEMLIST.txt";
+		FileReader fr = null;
+		String data = "";
+		try {
+			fr=new FileReader(name);
+			int read =0;
+			while(true) {
+				read =fr.read();
+				if(read!=-1) {
+					data+=(char)read;
+				}else {
+					break;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	finally {
+			if(fr!=null) {
+				try {
+					fr.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		ilist.clear();
+		String []data2 = data.split("\n");
+		String [] info = null;
+		for(int i=0; i<data2.length; i++) {
+			info = data2[i].split("/"); 
+			ilist.add(new Item(Integer.parseInt(info[0]),info[1],info[2],Integer.parseInt(info[3])));
+		}
+		System.out.println("[저장되어있던 상품목록 불러오기 완료]");
+//		for(int j = 0; j<ilist.size(); j++) {
+//			if(!ilist.get(j).getName().equals(info[2])) {
+//				ilist.add(new Item(Integer.parseInt(info[0]),info[1],info[2],Integer.parseInt(info[3])));
+//			}
+//		}
+		
 	}
 }

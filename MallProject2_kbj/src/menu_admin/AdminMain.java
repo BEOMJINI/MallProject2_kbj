@@ -14,11 +14,11 @@ public class AdminMain implements MenuCommand{
 	@Override
 	public void update() {
 		while (true) {
-			System.out.println("\n_____________________ADMIN_____________________");
+			System.out.println("\n_______________________ADMIN_______________________");
 			System.out.println("[0]종료 [1]회원관리 [2]상품관리 [3]장바구니관리 [4]게시판관리");
 			int sel = Util.getValue(0, 4);
 			if(sel ==0) {
-				mCon.changeMenu("MallMain");
+				//mCon.changeMenu("MallMain");
 				break;
 			}else if(sel==1) {
 				mCon.changeMenu("AdminMember");
@@ -27,7 +27,7 @@ public class AdminMain implements MenuCommand{
 			}else if(sel==3) {
 				mCon.changeMenu("AdminCart");
 			}else if (sel==4) {
-				
+				mCon.changeMenu("AdminBoard");
 			}
 		}
 	}
