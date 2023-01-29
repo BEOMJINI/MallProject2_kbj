@@ -195,25 +195,65 @@ public class CartDAO {
 			System.out.println("장바구니가 비었습니다.\n먼저 쇼핑을 통해 상품을 담아주세요.");
 			return;
 		}
-		// ArrayList<Cart> buy = new ArrayList<>();
+		ArrayList<Cart> temp = new ArrayList<>();
 		System.out.println("\n[주문완료]\n장바구니를 비웁니다.");
 		for (int i = 0; i < clist.size(); i++) {
 			if (clist.get(i).getId().equals(name)) {
-				// buy.add(clist.get(i));
+				temp.add(clist.get(i));
 				buylist.add(clist.get(i));
 				clist.remove(i);
 				i--;
-
 			}
 		}
-		// buylist.addAll(buy);
+		System.out.println("[구매 내역]");
+		buyItemCheck(temp);
+//		int cnt = 0;
+//		int sum = 0;
+//		int money = 0;
+//		for(int i =0; i<iDao.getIlist().size(); i++) {
+//			cnt=0;
+//			money=0;
+//			for(int j=0; j<temp.size(); j++) {
+//				if(iDao.getIlist().get(i).getName().equals(temp.get(j).getItemName())){
+//					cnt++;
+//					money = iDao.getIlist().get(i).getPrice()*cnt;
+//				}
+//			}
+//			if(cnt!=0) {
+//			System.out.println(iDao.getIlist().get(i).getName()+" : "+cnt+" -> "+money+" 원");
+//			}
+//			sum+=money;
+//		}
+//		System.out.println("==============\n구매 금액 합계 :" +sum+" 원");
 	}
-
+	
+	public void buyItemCheck(ArrayList<Cart> temp) {
+		int cnt = 0;
+		int sum = 0;
+		int money = 0;
+		for(int i =0; i<iDao.getIlist().size(); i++) {
+			cnt=0;
+			money=0;
+			for(int j=0; j<temp.size(); j++) {
+				if(iDao.getIlist().get(i).getName().equals(temp.get(j).getItemName())){
+					cnt++;
+					money = iDao.getIlist().get(i).getPrice()*cnt;
+				}
+			}
+			if(cnt!=0) {
+			System.out.println(iDao.getIlist().get(i).getName()+" : "+cnt+" -> "+money+" 원");
+			}
+			sum+=money;
+		}
+		System.out.println("========================\n금액 합계 :" +sum+" 원");
+	}
 	public void printAllBuylist() {
 		System.out.println("\n[전체 주문목록]");
 		for (Cart c : buylist) {
 			System.out.println(c.toString());
 		}
+		System.out.println("[전체 판매금액]");
+		buyItemCheck(buylist);
 	}
 
 	public void serchBuylist(String id) {
@@ -229,20 +269,19 @@ public class CartDAO {
 				System.out.println(buylist.get(i).toString());
 			}
 		}
-		int cnt =0;
-		for(int i=0; i<iDao.getIlist().size(); i++) {
-			cnt = 0;
-			for(int j=0; j<temp.size(); j++) {
-				if(iDao.getIlist().get(i).getName().equals(temp.get(j).getItemName())) {
-					cnt++;
-				}
-			}
-			if(cnt!=0) {
-			System.out.println(iDao.getIlist().get(i).getName()+" "+cnt+" 개");
-			}
-		}
-		
-		
+		buyItemCheck(temp);
+//		int cnt =0;
+//		for(int i=0; i<iDao.getIlist().size(); i++) {
+//			cnt = 0;
+//			for(int j=0; j<temp.size(); j++) {
+//				if(iDao.getIlist().get(i).getName().equals(temp.get(j).getItemName())) {
+//					cnt++;
+//				}
+//			}
+//			if(cnt!=0) {
+//			System.out.println(iDao.getIlist().get(i).getName()+" "+cnt+" 개");
+//			}
+//		}
 	}
 
 	/** admin 장바구니 전체 출력 장바구니관리 [2]장바구니출력 */

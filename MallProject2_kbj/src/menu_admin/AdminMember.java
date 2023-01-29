@@ -17,7 +17,7 @@ public class AdminMember implements MenuCommand {
 	@Override
 	public void update() {
 		while (true) {
-			System.out.println("\n_______ADMIN 회원관리________");
+			System.out.println("\n_________ADMIN 회원관리__________");
 			System.out.println("[0]ADMIN 메인 [1]회원목록 [2]주문목록");
 			int sel = Util.getValue(0, 2);
 			if(sel == 0) {
