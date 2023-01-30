@@ -13,6 +13,7 @@ import java.util.Set;
 import controller.MallController;
 import item.Item;
 import item.ItemDAO;
+import member.Member;
 import member.MemberDAO;
 import menu_admin.AdminCart;
 import menu_admin.AdminPrintCart;
@@ -253,8 +254,63 @@ public class CartDAO {
 			}
 			sum += money;
 		}
-		System.out.println("========================\n금액 합계 :" + sum + " 원");
+
+		if (!mCon.getLoginId().equals("admin")) {
+
+			double point = sum * 0.1;
+			double retainPoint = 0;
+			double memberPoint = 0;
+			int usePoint = 0;
+			for (Cart c : temp) {
+				for (Member m : mDao.getMlist()) {
+					if (c.getId().equals(m.getId())) {
+						memberPoint = m.getMemberPoint();
+						//m.setMemberPoint(memberPoint+point);
+						break;
+					}
+				}
+			}
+			if (memberPoint != 0) {
+				System.out.println("[포인트 결제]\n포인트를 사용해서 결제하시겠습니까?\n[1]아니오 [2]예");
+				int sel = Util.getValue(1, 2);
+				if (sel == 1) {
+
+				} else if (sel == 2) {
+					System.out.println("[사용할 포인트 입력해주세요]\n보유포인트 -> "+(int)memberPoint);
+					usePoint = 0;
+					while (true) {
+						usePoint = Util.getPrice();
+						if (usePoint > memberPoint) {
+							System.out.println("포인트 보유량이 부족합니다.");
+							continue;
+						}
+						sum -= usePoint;
+						System.out.println(usePoint+" 포인트 사용합니다.");
+						break;
+					}
+				}
+			}
+			//System.out.println(memberPoint);
+			retainPoint = memberPoint - usePoint;
+			for (Cart c : temp) {
+				for (Member m : mDao.getMlist()) {
+					if (c.getId().equals(m.getId())) {
+						m.setMemberPoint(retainPoint+point);
+						memberPoint = m.getMemberPoint();
+						break;
+					}
+				}
+			}
+			System.out.println("========================\n금액 합계 : " + sum + " 원");
+			System.out.printf("[%d] 포인트 적립 완료\n총 보유 포인트 -> %d point\n", (int) point, (int) memberPoint);
+		}else {
+			System.out.println("========================\n금액 합계 :" + sum + " 원");
+		}
 	}
+
+//	public void usePoint(double memberPoint) {
+//		if(memberPoint == return)
+//	}
 
 	public void printAllBuylist() {
 		System.out.println("\n[전체 주문목록]");
@@ -379,7 +435,7 @@ public class CartDAO {
 		buylist.clear();
 		String[] data2 = data.split("\n");
 		String[] info = null;
-		if(info == null) {
+		if (info == null) {
 			System.out.println("[구매목록 불러오기 실패]\n저장된 구매목록이 없습니다.");
 			return;
 		}
