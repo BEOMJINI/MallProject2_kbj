@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MemberDAO {
-	private MemberDAO () {}
+	private MemberDAO() {
+	}
+
 	private static MemberDAO instance = new MemberDAO();
+
 	public static MemberDAO getInstance() {
 		return instance;
 	}
+
 	private ArrayList<Member> mlist;
 	private int mNum;
 
@@ -72,36 +76,37 @@ public class MemberDAO {
 
 	/** 회원 샘플데이터 */
 	public void sampleMember() {
-		Member member = new Member(Num(), "admin", "admin", "관리자");
+		Member member = new Member(Num(), "admin", "admin", "관리자", 0);
 		insertMlist(member);
-		member = new Member(Num(), "a","a","A");
+		member = new Member(Num(), "a", "a", "A", 0);
 		insertMlist(member);
-		member = new Member(Num(), "b", "b","B");
+		member = new Member(Num(), "b", "b", "B", 1000);
 		insertMlist(member);
 	}
-	
+
 	public void printAdminMember() {
 		System.out.println("\n[전체 회원목록]");
-		for(Member m : mlist) {
+		for (Member m : mlist) {
 			System.out.println(m.toString());
 		}
 	}
-	
+
 	public void saveMemberList() {
-		String fileName= "src/file/MEMBERLIST.txt";
+		String fileName = "src/file/MEMBERLIST.txt";
 		String data = "";
 		FileWriter fw = null;
-		for(int i=0; i<mlist.size(); i++) {
-			data+=mlist.get(i).getNum()+"/"+mlist.get(i).getId()+"/"+mlist.get(i).getPw()+"/"+mlist.get(i).getName()+"\n";
+		for (int i = 0; i < mlist.size(); i++) {
+			data += mlist.get(i).getNum() + "/" + mlist.get(i).getId() + "/" + mlist.get(i).getPw() + "/"
+					+ mlist.get(i).getName() + "/" + mlist.get(i).getMemberPoint() + "\n";
 		}
 		try {
-			fw=new FileWriter(fileName);
+			fw = new FileWriter(fileName);
 			fw.write(data);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			if(fw!=null) {
+		} finally {
+			if (fw != null) {
 				try {
 					fw.close();
 				} catch (IOException e) {
@@ -112,19 +117,19 @@ public class MemberDAO {
 		}
 		System.out.println("[현재 회원목록 저장완료]");
 	}
-	
+
 	public void loadMemberList() {
-		String fileName= "src/file/MEMBERLIST.txt";
-		String data="";
+		String fileName = "src/file/MEMBERLIST.txt";
+		String data = "";
 		FileReader fr = null;
 		try {
 			fr = new FileReader(fileName);
-			int read =0;
-			while(true) {
-				read=fr.read();
-				if(read!=-1) {
-					data+=(char)read;
-				}else {
+			int read = 0;
+			while (true) {
+				read = fr.read();
+				if (read != -1) {
+					data += (char) read;
+				} else {
 					break;
 				}
 			}
@@ -134,8 +139,8 @@ public class MemberDAO {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			if(fr!=null) {
+		} finally {
+			if (fr != null) {
 				try {
 					fr.close();
 				} catch (IOException e) {
@@ -145,15 +150,15 @@ public class MemberDAO {
 			}
 		}
 		mlist.clear();
-		String [] data2 = data.split("\n");
-		String [] info = null;
-		if(info == null) {
+		String[] data2 = data.split("\n");
+		String[] info = null;
+		if (info == null) {
 			System.out.println("[회원목록 불러오기 실패]\n저장된 회원목록이 없습니다.");
 			return;
 		}
-		for(int i=0; i<data2.length; i++) {
+		for (int i = 0; i < data2.length; i++) {
 			info = data2[i].split("/");
-			mlist.add(new Member(Integer.parseInt(info[0]),info[1],info[2],info[3]));
+			mlist.add(new Member(Integer.parseInt(info[0]), info[1], info[2], info[3],Integer.parseInt(info[4])));
 		}
 		System.out.println("[저장되어있던 회원목록 불러오기 완료]");
 	}

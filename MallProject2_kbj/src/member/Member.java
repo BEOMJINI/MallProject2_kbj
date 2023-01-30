@@ -5,12 +5,15 @@ public class Member {
 	private String id;
 	private String pw;
 	private String name;
-	public Member(int num, String id, String pw, String name) {
+	private double memberPoint;
+	public Member(int num, String id, String pw, String name, double memberPoint) {
 		super();
 		this.num = num;
 		this.id = id;
 		this.pw = pw;
 		this.name = name;
+		this.memberPoint = memberPoint;
+		
 	}
 	
 	@Override
@@ -42,6 +45,14 @@ public class Member {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public double getMemberPoint() {
+		return memberPoint;
+	}
+
+	public void setMemberPoint(double memberPoint) {
+		this.memberPoint = memberPoint;
 	}
 	
 	
