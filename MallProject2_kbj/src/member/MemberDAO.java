@@ -152,13 +152,14 @@ public class MemberDAO {
 		mlist.clear();
 		String[] data2 = data.split("\n");
 		String[] info = null;
-		if (info == null) {
-			System.out.println("[회원목록 불러오기 실패]\n저장된 회원목록이 없습니다.");
-			return;
-		}
+		
 		for (int i = 0; i < data2.length; i++) {
 			info = data2[i].split("/");
-			mlist.add(new Member(Integer.parseInt(info[0]), info[1], info[2], info[3],Integer.parseInt(info[4])));
+			if (info == null) {
+				System.out.println("[회원목록 불러오기 실패]\n저장된 회원목록이 없습니다.");
+				return;
+			}
+			mlist.add(new Member(Integer.parseInt(info[0]), info[1], info[2], info[3],Double.parseDouble(info[4])));
 		}
 		System.out.println("[저장되어있던 회원목록 불러오기 완료]");
 	}

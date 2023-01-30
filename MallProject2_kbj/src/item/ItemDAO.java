@@ -265,12 +265,13 @@ public class ItemDAO {
 		ilist.clear();
 		String []data2 = data.split("\n");
 		String [] info = null;
-		if(info == null) {
-			System.out.println("[상품목록 불러오기 실패]\n저장된 상품목록이 없습니다.");
-			return;
-		}
+		
 		for(int i=0; i<data2.length; i++) {
 			info = data2[i].split("/"); 
+			if(info == null) {
+				System.out.println("[상품목록 불러오기 실패]\n저장된 상품목록이 없습니다.");
+				return;
+			}
 			ilist.add(new Item(Integer.parseInt(info[0]),info[1],info[2],Integer.parseInt(info[3])));
 		}
 		System.out.println("[저장되어있던 상품목록 불러오기 완료]");
