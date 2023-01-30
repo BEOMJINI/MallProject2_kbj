@@ -6,6 +6,7 @@ import java.util.Map;
 import _mall.MenuCommand;
 import board.BoardDAO;
 import cart.CartDAO;
+import file.ManagementData;
 import item.ItemDAO;
 import member.MemberDAO;
 import menu_admin.AdminAddItem;
@@ -83,6 +84,7 @@ public class MallController {
 		mapCon.put("MemberWriteBoard", new MemberWriteBoard());
 		mapCon.put("MemberReadBoard", new MemberReadBoard());
 		mapCon.put("MemberDeleteBoard", new MemberDeleteBoard());
+		mapCon.put("ManagementData", new ManagementData());
 		loginId = "";
 		changeMenu("MallMain");
 		

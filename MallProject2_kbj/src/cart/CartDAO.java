@@ -1,5 +1,9 @@
 package cart;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,6 +35,10 @@ public class CartDAO {
 	private MemberDAO mDao;
 	private ItemDAO iDao;
 
+	public ArrayList<Cart> getClist() {
+		return clist;
+	}
+
 	public void init() {
 		clist = new ArrayList<>();
 		cartNum = 0;
@@ -46,7 +54,7 @@ public class CartDAO {
 		cartNum++;
 		return cartNum;
 	}
-	
+
 	public void sampleCart() {
 		clist.add(new Cart(0, "a", "콜라", 1000));
 		clist.add(new Cart(0, "a", "사이다", 2000));
@@ -112,7 +120,7 @@ public class CartDAO {
 	}
 
 	public void removeOneCart(Map<Integer, Integer> list) {
-		if(list.keySet().size()==0) {
+		if (list.keySet().size() == 0) {
 			return;
 		}
 		// printAdminCart();
@@ -191,7 +199,7 @@ public class CartDAO {
 
 	/** 구매리스트에 넣기 */
 	public void insertBuylist(String name) {
-		if(getmemberCartList(mCon.getLoginId()).keySet().size()==0){
+		if (getmemberCartList(mCon.getLoginId()).keySet().size() == 0) {
 			System.out.println("장바구니가 비었습니다.\n먼저 쇼핑을 통해 상품을 담아주세요.");
 			return;
 		}
@@ -226,27 +234,28 @@ public class CartDAO {
 //		}
 //		System.out.println("==============\n구매 금액 합계 :" +sum+" 원");
 	}
-	
+
 	public void buyItemCheck(ArrayList<Cart> temp) {
 		int cnt = 0;
 		int sum = 0;
 		int money = 0;
-		for(int i =0; i<iDao.getIlist().size(); i++) {
-			cnt=0;
-			money=0;
-			for(int j=0; j<temp.size(); j++) {
-				if(iDao.getIlist().get(i).getName().equals(temp.get(j).getItemName())){
+		for (int i = 0; i < iDao.getIlist().size(); i++) {
+			cnt = 0;
+			money = 0;
+			for (int j = 0; j < temp.size(); j++) {
+				if (iDao.getIlist().get(i).getName().equals(temp.get(j).getItemName())) {
 					cnt++;
-					money = iDao.getIlist().get(i).getPrice()*cnt;
+					money = iDao.getIlist().get(i).getPrice() * cnt;
 				}
 			}
-			if(cnt!=0) {
-			System.out.println(iDao.getIlist().get(i).getName()+" : "+cnt+" -> "+money+" 원");
+			if (cnt != 0) {
+				System.out.println(iDao.getIlist().get(i).getName() + " : " + cnt + " -> " + money + " 원");
 			}
-			sum+=money;
+			sum += money;
 		}
-		System.out.println("========================\n금액 합계 :" +sum+" 원");
+		System.out.println("========================\n금액 합계 :" + sum + " 원");
 	}
+
 	public void printAllBuylist() {
 		System.out.println("\n[전체 주문목록]");
 		for (Cart c : buylist) {
@@ -309,6 +318,75 @@ public class CartDAO {
 			}
 		}
 	}
-	
-	
+
+	public void saveBuyList() {
+		String name = "src/file/BUYLIST.txt";
+		FileWriter fw = null;
+		String data = "";
+		for (Cart b : buylist) {
+			data += b.getNum() + "/" + b.getId() + "/" + b.getItemName() + "/" + b.getItemPrice() + "\n";
+		}
+		try {
+			fw = new FileWriter(name);
+			fw.write(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (fw != null) {
+				try {
+					fw.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			System.out.println("[현재 구매목록 저장완료]");
+		}
+	}
+
+	public void loadBuyList() {
+		String name = "src/file/BUYLIST.txt";
+		FileReader fr = null;
+		String data = "";
+		try {
+			fr = new FileReader(name);
+			int read = 0;
+			while (true) {
+				read = fr.read();
+				if (read != -1) {
+					data += (char) read;
+				} else {
+					break;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (fr != null) {
+				try {
+					fr.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		buylist.clear();
+		String[] data2 = data.split("\n");
+		String[] info = null;
+		if(info == null) {
+			System.out.println("[구매목록 불러오기 실패]\n저장된 구매목록이 없습니다.");
+			return;
+		}
+		for (int i = 0; i < data2.length; i++) {
+			info = data2[i].split("/");
+			buylist.add(new Cart(Integer.parseInt(info[0]), info[1], info[2], Integer.parseInt(info[3])));
+		}
+		System.out.println("[저장되어있던 구매목록 불러오기 완료]");
+	}
 }

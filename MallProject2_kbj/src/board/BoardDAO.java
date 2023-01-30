@@ -119,7 +119,7 @@ public class BoardDAO {
 			}
 			con += c;
 		}
-		blist.add(new Board(n, con,mCon.getLoginId()));
+		blist.add(0,new Board(n, con,mCon.getLoginId()));
 	}
 
 	public void deleteBoard() {

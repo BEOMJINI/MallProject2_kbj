@@ -156,6 +156,12 @@ public class ItemDAO {
 				System.out.println("[목록에 없는 상품]\n상품이름을 확인해주세요.");
 				continue;
 			}
+			for(Cart c : cDao.getClist()) {
+				if(name.equals(c.getItemName())) {
+					System.out.println("회원의 장바구니 목록에 담겨져있기 때문에 삭제할 수 없습니다.");
+					return;
+				}
+			}
 			int idx = -1;
 			for (int i = 0; i < ilist.size(); i++) {
 				if (name.equals(ilist.get(i).getName())) {
@@ -259,6 +265,10 @@ public class ItemDAO {
 		ilist.clear();
 		String []data2 = data.split("\n");
 		String [] info = null;
+		if(info == null) {
+			System.out.println("[상품목록 불러오기 실패]\n저장된 상품목록이 없습니다.");
+			return;
+		}
 		for(int i=0; i<data2.length; i++) {
 			info = data2[i].split("/"); 
 			ilist.add(new Item(Integer.parseInt(info[0]),info[1],info[2],Integer.parseInt(info[3])));

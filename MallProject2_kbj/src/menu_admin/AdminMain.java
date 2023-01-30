@@ -14,9 +14,9 @@ public class AdminMain implements MenuCommand{
 	@Override
 	public void update() {
 		while (true) {
-			System.out.println("\n_____________________ADMIN_____________________");
-			System.out.println("[0]종료 [1]회원관리 [2]상품관리 [3]장바구니관리 [4]게시판관리");
-			int sel = Util.getValue(0, 4);
+			System.out.println("\n_____________________________ADMIN__________________________");
+			System.out.println("[0]종료 [1]회원관리 [2]상품관리 [3]장바구니관리 [4]게시판관리 [5]데이터관리");
+			int sel = Util.getValue(0, 5);
 			if(sel ==0) {
 				//mCon.changeMenu("MallMain");
 				break;
@@ -28,6 +28,8 @@ public class AdminMain implements MenuCommand{
 				mCon.changeMenu("AdminCart");
 			}else if (sel==4) {
 				mCon.changeMenu("AdminBoard");
+			}else if (sel==5) {
+				mCon.changeMenu("ManagementData");
 			}
 		}
 	}
